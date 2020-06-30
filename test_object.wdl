@@ -46,15 +46,15 @@ task check_size {
     echo "Father: ${father_id}  | Path: ${father_gvcf} | Filesize: ${father_gvcf_size_gb}"
     echo "Mother: ${mother_id}  | Path: ${mother_gvcf} | Filesize: ${mother_gvcf_size_gb}"
 
-    touch ${sample_gvcf} 
-    touch ${father_gvcf}
-    touch ${mother_gvcf}
+    zcat ${sample_gvcf} > "sample.g.vcf"
+    zcat ${father_gvcf} > "father.g.vcf"
+    zcat ${mother_gvcf} > "mother.g.vcf"
 
   }
 
   output {
     File response = stdout()
-    Array[File] trio_gvcfs = glob("*.vcf.gz")
+    Array[File] trio_gvcfs = glob("*.vcf")
   }
 
   runtime {
