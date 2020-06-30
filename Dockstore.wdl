@@ -24,21 +24,26 @@ task check_size {
 
   Object SampleAttrs
   String sample_id = SampleAttrs.sample_id
-  File sample_gvcf = SampleAttrs.gvcf_path
-  
-  Array[File] trio_gvcfs = SampleAttrs.trio_gvcf_array
-  
-  Float input_file_size_gb = size(sample_gvcf, "G")
+  File sample_gvcf = SampleAttrs.sample_gvcf
+
+  String father_id = SampleAttrs.father_rg_id
+  File father_gvcf = SampleAttrs.father_gvcf
+
+  String mother_id = SampleAttrs.mother_rg_id
+  File mother_gvcf = SampleAttrs.mother_gvcf
+
+
+    
+  Float sample_gvcf_size_gb = size(sample_gvcf, "G")
+  Float father_gvcf_size_gb = size(father_gvcf, "G")
+  Float mother_gvcf_size_gb = size(mother_gvcf, "G")
+
 
   command {
 
-    echo "Sample: ${sample_id}  | Path: ${sample_gvcf} | Filesize: ${input_file_size_gb}"
-
-    for GVCF in ${trio_gvcfs}
-    do
-      file_size_kb=`du -k "$GVCF" | cut -f1`
-      echo "$GVCF : $file_size_kb"
-    done
+    echo "Sample: ${sample_id}  | Path: ${sample_gvcf} | Filesize: ${sample_gvcf_size_gb}"
+    echo "Father: ${father_id}  | Path: ${father_gvcf} | Filesize: ${father_gvcf_size_gb}"
+    echo "Mother: ${mother_id}  | Path: ${mother_gvcf} | Filesize: ${mother_gvcf_size_gb}"
 
   }
 
