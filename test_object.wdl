@@ -15,6 +15,7 @@ workflow test_object {
   }
   output {
     Array[File] output = check_size.response
+    Array[Array[File]] trio_gvcfs = check_size.trio_gvcfs
   }
 
 }
@@ -23,6 +24,7 @@ workflow test_object {
 task check_size {
 
   Object SampleAttrs
+
   String sample_id = SampleAttrs.sample_id
   File sample_gvcf = SampleAttrs.sample_gvcf
 
@@ -49,6 +51,7 @@ task check_size {
 
   output {
     File response = stdout()
+    Array[File] trio_gvcfs = glob("*.vcf.gz")
   }
 
   runtime {
