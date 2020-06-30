@@ -1,7 +1,7 @@
 ###########################################################################
 #WORKFLOW DEFINITION
 ###########################################################################
-workflow gvcf_to_denovo {
+workflow test_object {
   
   File Table
   Array[Object] SampleTable = read_objects(Table)
