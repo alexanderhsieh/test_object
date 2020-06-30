@@ -51,7 +51,7 @@ task check_size {
 
   output {
     File response = stdout()
-    Array[File] trio_gvcfs = glob("*.vcf.gz")
+    Array[File] trio_gvcfs = glob(${sample_gvcf},${father_gvcf},${mother_gvcf})
   }
 
   runtime {
