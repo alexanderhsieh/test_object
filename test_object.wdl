@@ -6,12 +6,9 @@ workflow gvcf_to_denovo {
   File Table
   Array[Object] SampleTable = read_objects(Table)
 
-  String sample_id
-
   scatter (line in SampleTable) {
     call check_size {
       input:
-      id_to_query=sample_id,
       SampleAttrs=line
 
     }
@@ -24,7 +21,6 @@ workflow gvcf_to_denovo {
 
 
 task check_size {
-  String id_to_query
 
   Object SampleAttrs
   String sample_id = SampleAttrs.sample_id
@@ -32,18 +28,17 @@ task check_size {
   
   Array[File] trio_gvcfs = SampleAttrs.trio_gvcf_array
   
-  Array[String] trio_readgroup_ids = SampleAttrs.trio_readgroup_ids
-
   Float input_file_size_gb = size(sample_gvcf, "G")
-  Array[Float] trio_file_sizes_gb = size(select_all(trio_gvcfs), 'G')
 
   command {
 
     echo "Sample: ${sample_id}  | Path: ${sample_gvcf} | Filesize: ${input_file_size_gb}"
 
-    if [ "${sample_id}" == "${id_to_query}"]; then
-      echo "# MATCH Sample: ${sample_id}  | Path: ${sample_gvcf} | Filesize: ${input_file_size_gb} Trio_GVCFs: ${trio_gvcfs} | Trio Filesizes: ${trio_file_sizes_gb} "
-      exit 1;
+    for GVCF in ${trio_gvcfs}
+    do
+      file_size_kb=`du -k "$GVCF" | cut -f1`
+      echo "$GVCF : $file_size_kb"
+    done
 
   }
 
