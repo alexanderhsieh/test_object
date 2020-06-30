@@ -29,8 +29,9 @@ task check_size {
   Object SampleAttrs
   String sample_id = SampleAttrs.sample_id
   File sample_gvcf = SampleAttrs.gvcf_path
+  
   Array[File] trio_gvcfs = SampleAttrs.trio_gvcf_array
-  Array[File] trio_gvcf_indexes = SampleAttrs.trio_gvcf_index_array
+  
   Array[String] trio_readgroup_ids = SampleAttrs.trio_readgroup_ids
 
   Float input_file_size_gb = size(sample_gvcf, "G")
@@ -38,8 +39,10 @@ task check_size {
 
   command {
 
+    echo "Sample: ${sample_id}  | Path: ${sample_gvcf} | Filesize: ${input_file_size_gb}"
+
     if [ "${sample_id}" == "${id_to_query}"]; then
-      echo "Sample: ${sample_id}  | Path: ${sample_gvcf} | Filesize: ${input_file_size_gb} Trio_GVCFs: ${trio_gvcfs} | Trio Filesizes: ${trio_file_sizes_gb} "
+      echo "# MATCH Sample: ${sample_id}  | Path: ${sample_gvcf} | Filesize: ${input_file_size_gb} Trio_GVCFs: ${trio_gvcfs} | Trio Filesizes: ${trio_file_sizes_gb} "
       exit 1;
 
   }
