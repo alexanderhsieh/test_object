@@ -12,6 +12,9 @@ workflow gvcf_to_denovo {
       SampleAttrs=line
     }
   }
+  output {
+    Array[File] output = check_size.response
+  }
 
 }
 
