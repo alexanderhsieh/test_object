@@ -40,18 +40,21 @@ task check_size {
   Float father_gvcf_size_gb = size(father_gvcf, "G")
   Float mother_gvcf_size_gb = size(mother_gvcf, "G")
 
-
   command {
 
     echo "Sample: ${sample_id}  | Path: ${sample_gvcf} | Filesize: ${sample_gvcf_size_gb}"
     echo "Father: ${father_id}  | Path: ${father_gvcf} | Filesize: ${father_gvcf_size_gb}"
     echo "Mother: ${mother_id}  | Path: ${mother_gvcf} | Filesize: ${mother_gvcf_size_gb}"
 
+    touch ${sample_gvcf} 
+    touch ${father_gvcf}
+    touch ${mother_gvcf}
+
   }
 
   output {
     File response = stdout()
-    Array[File] trio_gvcfs = glob("${sample_gvcf}","${father_gvcf}","${mother_gvcf}")
+    Array[File] trio_gvcfs = glob("*.vcf.gz")
   }
 
   runtime {
