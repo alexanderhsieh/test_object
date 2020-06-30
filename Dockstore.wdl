@@ -15,7 +15,9 @@ workflow test_object {
   }
   output {
     Array[File] output = check_size.response
-    Array[Array[File]] trio_gvcfs = check_size.trio_gvcfs
+    Array[File] samp_gvcf = check_size.out_sample_gvcf
+    Array[File] fa_gvcf = check_size.out_father_gvcf
+    Array[File] mo_gvcf = check_size.out_mother_gvcf
   }
 
 }
@@ -54,7 +56,9 @@ task check_size {
 
   output {
     File response = stdout()
-    Array[File] trio_gvcfs = glob("*.vcf")
+    File out_sample_gvcf = "sample.g.vcf"
+    File out_father_gvcf = "father.g.vcf"
+    File out_mother_gvcf = "mother.g.vcf"
   }
 
   runtime {
