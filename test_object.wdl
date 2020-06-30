@@ -46,9 +46,9 @@ task check_size {
     echo "Father: ${father_id}  | Path: ${father_gvcf} | Filesize: ${father_gvcf_size_gb}"
     echo "Mother: ${mother_id}  | Path: ${mother_gvcf} | Filesize: ${mother_gvcf_size_gb}"
 
-    zcat ${sample_gvcf} > "sample.g.vcf"
-    zcat ${father_gvcf} > "father.g.vcf"
-    zcat ${mother_gvcf} > "mother.g.vcf"
+    gunzip -c ${sample_gvcf} > ./sample.g.vcf
+    gunzip -c ${father_gvcf} > ./father.g.vcf
+    gunzip -c ${mother_gvcf} > ./mother.g.vcf
 
   }
 
